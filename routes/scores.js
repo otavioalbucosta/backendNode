@@ -35,7 +35,7 @@ router.post('/calculate', function (req,res,next) {
                         success++
                         scorearr.push(hint)
                     }
-                    score += Math.pow(hint.rank - round.rank,2)
+                    score += Math.pow(round.rank - hint.rank,2)
 
 
                 }
