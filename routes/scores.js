@@ -42,9 +42,7 @@ router.post('/calculate', function (req,res,next) {
                 score = Math.sqrt(score)
                 models.Ranking.findOrCreate({where:{
                     UserId : user.id,
-                    competitionName : req.body.competitionName,
-                    score: score,
-                    hits: success
+                    competitionName : req.body.competitionName
 
                 }, defaults:{
                     UserId : user.id,
