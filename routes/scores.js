@@ -40,13 +40,18 @@ router.post('/calculate', function (req,res,next) {
 
                 }
                 score = Math.sqrt(score)
-                models.Ranking.create({
+                models.Ranking.findOrCreate({where:{
                     UserId : user.id,
                     competitionName : req.body.competitionName,
                     score: score,
                     hits: success
 
-                })
+                }, defaults:{
+                    UserId : user.id,
+                    competitionName : req.body.competitionName,
+                    score: score,
+                    hits: success
+                }})
                 .then(ans=>{
                     res.send({
                         score: score,
