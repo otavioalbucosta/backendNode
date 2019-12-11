@@ -44,7 +44,7 @@ router.post('/calculate', function (req,res,next) {
                     UserId : user.id,
                     competitionName : req.body.competitionName,
                     score: score,
-                    hits: hits
+                    hits: success
 
                 })
                 .then(ans=>{
