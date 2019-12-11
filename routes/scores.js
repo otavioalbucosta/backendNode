@@ -40,11 +40,22 @@ router.post('/calculate', function (req,res,next) {
 
                 }
                 score = Math.sqrt(score)
-                res.send({
+                models.Ranking.create({
+                    UserId : user.id,
+                    competitionName : req.body.competitionName,
                     score: score,
-                    hits : success,
-                    hintsScore: scorearr
+                    hits: hits
+
                 })
+                .then(ans=>{
+                    res.send({
+                        score: score,
+                        hits : success,
+                        hintsScore: scorearr
+                    })
+
+                })
+                
 
             })
             .catch(errou=>{
@@ -59,6 +70,29 @@ router.post('/calculate', function (req,res,next) {
         res.send("Err: ", err)
     })
     
+})
+
+router.post('/rankings', (req,res,next) => {
+    models.Ranking.findAll({include : [
+        {model : models.User, as: 'user'}
+    ],
+        where : {
+        competitionName : req.body.competitionName}
+    }).then(resp => {
+        res.send(resp)
+    })
+})
+
+router.post('/rankingUser', (req,res,next) => {
+    var decoded = jwt.verify(req.body['x-access-token'], process.env.SECRET_KEY)
+    models.Ranking.findAll({include : [
+        {model : models.User, as: 'user'}
+    ],
+        where : {
+        competitionName : req.body.competitionName}
+    }).then(resp => {
+        res.send(resp)
+    })
 })
 
 module.exports = router;
